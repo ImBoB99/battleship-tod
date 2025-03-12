@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginPrettier from "eslint-plugin-prettier";
 import configPrettier from "eslint-config-prettier";
+import babelParser from "@babel/eslint-parser";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -19,7 +20,20 @@ export default [
       "package.json",
     ],
   },
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: globals.browser,
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          babelrc: false,
+          configFile: false,
+          presets: ["@babel/preset-env"],
+        },
+      },
+    },
+  },
   pluginJs.configs.recommended,
   configPrettier, // Disables ESLint rules that might conflict with Prettier
   {
