@@ -22,7 +22,10 @@ export default [
   },
   {
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser, // Spread browser globals
+        ...globals.jest, // Spread Jest globals
+      },
       parser: babelParser,
       parserOptions: {
         requireConfigFile: false,
