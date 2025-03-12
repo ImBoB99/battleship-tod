@@ -1,5 +1,5 @@
 {
-  "name": "webpack-project-template",
+  "name": "battleship-tod",
   "version": "1.0.0",
   "description": "Fully setup webpack with scripts, eslint &amp; prettier",
   "main": "index.js",
