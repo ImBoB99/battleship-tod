@@ -1,0 +1,31 @@
+{
+  "name": "webpack-project-template",
+  "version": "1.0.0",
+  "description": "Fully setup webpack with scripts, eslint &amp; prettier",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack serve --open --config webpack.dev.js",
+    "deploy": "git checkout gh-pages && git merge main --no-edit && npm run build && git add dist -f && git commit -m 'GH Pages deploy update' && git subtree push --prefix dist origin gh-pages && git checkout main",
+    "initial-deploy": "git branch gh-pages && git checkout gh-pages && git merge main --no-edit && npm run build && git add dist -f && git commit -m 'Initial GH Pages deployment' && git subtree push --prefix dist origin gh-pages && git checkout main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.12.0",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "prettier": "^3.3.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
+  }
+}
