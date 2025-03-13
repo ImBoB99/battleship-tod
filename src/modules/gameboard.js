@@ -33,9 +33,9 @@ export class Gameboard {
     if (x < 0 || y < 0) return false; // Prevent negative coordinates
 
     if (direction === "horizontal") {
-      return y + shipLength <= this.size; // Ensure ship fits within grid width
+      return y + shipLength <= 10; // Ensure ship fits within grid width
     } else if (direction === "vertical") {
-      return x + shipLength <= this.size; // Ensure ship fits within grid height
+      return x + shipLength <= 10; // Ensure ship fits within grid height
     }
     return false;
   }
@@ -67,7 +67,7 @@ export class Gameboard {
 
   receiveAttack(x, y) {
     if (x < 0 || y < 0) return false; // Prevent negative coordinates
-    if (x > this.size || y > this.size) return false; // Prevent out of bounds coordinates
+    if (x > 9 || y > 9) return false; // Prevent out of bounds coordinates
 
     if (this.grid[x][y].attacked) return false; // Prevent attacking the same cell
 
