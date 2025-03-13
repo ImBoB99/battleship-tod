@@ -44,8 +44,13 @@ export default [
       prettier: pluginPrettier,
     },
     rules: {
-      "prettier/prettier": "error", // Runs Prettier as an ESLint rule
-      "max-len": ["error", { "code": 100 }], // Set the maximum line length
+      "prettier/prettier": [
+        "error",
+        {
+          printWidth: 100, // Ensure this matches your max-len rule
+        },
+      ],
+      "max-len": ["error", { code: 100 }],
     },
   },
 ];
