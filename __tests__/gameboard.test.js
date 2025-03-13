@@ -22,9 +22,26 @@ test("Gameboard should be able to place ship at certain coordinates", () => {
 
   gameboard.placeShip(1, 1, "horizontal", ship);
 
-  expect(gameboard.grid[1][1]).toEqual({ ship: ship, position: 0 });
-  expect(gameboard.grid[1][2]).toEqual({ ship: ship, position: 1 });
-  expect(gameboard.grid[1][3]).toEqual({ ship: ship, position: 2 });
+  expect(gameboard.grid[1][1].ship).toBe(ship);
+  expect(gameboard.grid[1][2].ship).toBe(ship);
+  expect(gameboard.grid[1][3].ship).toBe(ship);
+});
+
+test("Gameboard should be able to have multiple ships", () => {
+  const gameboard = new Gameboard();
+  const ship1 = new Ship(3);
+  const ship2 = new Ship(4);
+
+  gameboard.placeShip(1, 1, "horizontal", ship1);
+  gameboard.placeShip(2, 1, "horizontal", ship2);
+
+  expect(gameboard.grid[1][1].ship).toBe(ship1);
+  expect(gameboard.grid[1][2].ship).toBe(ship1);
+  expect(gameboard.grid[1][3].ship).toBe(ship1);
+  expect(gameboard.grid[2][1].ship).toBe(ship2);
+  expect(gameboard.grid[2][2].ship).toBe(ship2);
+  expect(gameboard.grid[2][3].ship).toBe(ship2);
+  expect(gameboard.grid[2][4].ship).toBe(ship2);
 });
 
 test("Don't allow placement at negative X coordinates", () => {
@@ -89,4 +106,90 @@ test("Don't allow overlapping ships", () => {
 
   // Ensure grid remains unchanged
   expect(JSON.stringify(gameboard.grid)).toBe(initialGrid);
+});
+
+test("Allow attacks on grid cells", () => {
+  const gameboard = new Gameboard();
+
+  gameboard.receiveAttack(0, 0);
+
+  expect(gameboard.grid[0][0].attacked).toBe(true);
+});
+
+test("Don't allow negative coordinate attacks", () => {
+  const gameboard = new Gameboard();
+
+  expect(gameboard.receiveAttack(-1, 0)).toBe(false);
+  expect(gameboard.receiveAttack(0, -2)).toBe(false);
+});
+
+test("Don't allow out of bounds coordinate attacks", () => {
+  const gameboard = new Gameboard();
+
+  expect(gameboard.receiveAttack(12, 0)).toBe(false);
+  expect(gameboard.receiveAttack(0, 13)).toBe(false);
+});
+
+test("Don't allow subsequent attacks on a grid cell", () => {
+  const gameboard = new Gameboard();
+
+  gameboard.receiveAttack(0, 0);
+
+  expect(gameboard.receiveAttack(0, 0)).toBe(false);
+});
+
+test("Attack a ship's cell", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+
+  gameboard.placeShip(1, 1, "horizontal", ship);
+  gameboard.receiveAttack(1, 1);
+
+  expect(gameboard.grid[1][1].attacked).toBe(true);
+  expect(gameboard.grid[1][1].ship.hits).toBe(1);
+});
+
+test("Don't allow subsequent attacks on a ship cell", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+
+  gameboard.placeShip(1, 1, "horizontal", ship);
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 1);
+
+  expect(gameboard.grid[1][1].ship.hits).toBe(1);
+});
+
+test("Destroy a ship", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(3);
+
+  gameboard.placeShip(1, 1, "horizontal", ship);
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 2);
+  gameboard.receiveAttack(1, 3);
+
+  expect(gameboard.grid[1][1].ship.hits).toBe(3);
+  expect(gameboard.grid[1][2].ship.hits).toBe(3);
+  expect(gameboard.grid[1][3].ship.hits).toBe(3);
+  expect(gameboard.grid[1][3].ship.isSunk()).toBe(true);
+});
+
+test("Detect when all ships have been sunk", () => {
+  const gameboard = new Gameboard();
+  const ship1 = new Ship(3);
+  const ship2 = new Ship(4);
+
+  gameboard.placeShip(1, 1, "horizontal", ship1);
+  gameboard.placeShip(2, 1, "horizontal", ship2);
+  gameboard.receiveAttack(1, 1);
+  gameboard.receiveAttack(1, 2);
+  gameboard.receiveAttack(1, 3);
+  gameboard.receiveAttack(2, 1);
+  gameboard.receiveAttack(2, 2);
+  gameboard.receiveAttack(2, 3);
+  gameboard.receiveAttack(2, 4);
+
+  expect(gameboard.checkSunkenShips()).toBe("all ships sunk");
 });
