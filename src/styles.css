@@ -9,7 +9,9 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background-color: #101010;
+  background-color: #182667;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
 }
 img,
 picture,
@@ -44,4 +46,124 @@ h4,
 h5,
 h6 {
   text-wrap: balance;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.setup-div {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 3rem;
+  background-color: #101010;
+  color: white;
+  gap: 6px;
+  font-size: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  -webkit-box-shadow: 2px 2px 8px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 2px 8px 0px rgba(0,0,0,0.75);
+  box-shadow: 2px 2px 8px 0px rgba(0,0,0,0.75);
+}
+
+.setup-div h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setup-div h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color:#b6b9bb;
+  margin-bottom: 2rem;
+}
+
+.setup-div label {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.setup-div input {
+  width: 100%;
+  font-size: 18px;
+  border-radius: 2px;
+  border: none;
+  outline: none;
+  padding-left: 6px;
+  margin-bottom: 2rem;
+}
+
+.setup-div button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.setup-div button:hover {
+  background-color: #218838; /* Darker green */
+  transform: scale(1.05); /* Slight zoom */
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
+  grid-template-rows: repeat(10, 1fr); /* 10 equal rows */
+  gap: 2px; /* Space between cells */
+  width: min(90vw, 500px); /* Make it responsive */
+  height: auto; /* Height adjusts automatically */
+}
+
+.grid-cell {
+  background-color: #1e1e1e;
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  aspect-ratio: 1 / 1; /* Keeps each cell a perfect square */
+}
+
+.grid-cell:hover {
+  background-color: lightblue;
+}
+
+.hit {
+  background-color: red; /* Hits turn red */
+}
+
+.miss {
+  background-color: gray; /* Misses turn gray */
+}
+
+.ship-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ship {
+  background-color: steelblue;
+  color: white;
+  padding: 10px;
+  cursor: grab;
+  border-radius: 5px;
+}
+
+.ship-placed {
+  background-color: darkgreen !important;
 }

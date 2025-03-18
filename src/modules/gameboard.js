@@ -67,18 +67,20 @@ export class Gameboard {
 
   receiveAttack(x, y) {
     if (x < 0 || y < 0) return false; // Prevent negative coordinates
-    if (x > 9 || y > 9) return false; // Prevent out of bounds coordinates
+    if (x > 9 || y > 9) return false; // Prevent out-of-bounds coordinates
 
     if (this.grid[x][y].attacked) return false; // Prevent attacking the same cell
 
     const ship = this.grid[x][y].ship;
-    if (this.grid[x][y].ship !== null) {
-      this.grid[x][y].attacked = true; // Mark cell as attacked
-      ship.hit(); // Call the hit method of the ship
+    this.grid[x][y].attacked = true; // Mark cell as attacked
+
+    if (ship !== null) {
+      ship.hit(); // Call the ship's hit method
+      return true;
     } else {
-      this.grid[x][y].attacked = true; // Mark cell as attacked
       this.missedAttacks.push([x, y]);
-      console.log(`Attacked empty cell, ${x} ${y}`);
+      console.log(`Missed attack at (${x}, ${y})`);
+      return "miss";
     }
   }
 
@@ -88,13 +90,7 @@ export class Gameboard {
       // Uses `every` to check if all ships are sunk
       const allSunk = this.ships.every((ship) => ship.isSunk());
 
-      if (allSunk) {
-        return "all ships sunk";
-      } else {
-        return "not all ships are sunk";
-      }
-    } else {
-      return "no ships to check";
+      return allSunk;
     }
   }
 }
